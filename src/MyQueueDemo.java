@@ -1,13 +1,16 @@
 import static java.lang.System.exit;
 
-public class MyQueueDemo {
+public class MyQueueDemo implements Runnable{
     MyQueue q1 = new MyQueue();
     MyQueue q2 = new MyQueue(5);
+    Thread t;
 
     public MyQueueDemo() {
+        t = new Thread(this, "Демонстрационный поток");
+        t.start();
     }
 
-    public void startDemo() {
+    public synchronized void run() {
 
         for (int i = 0; i < q1.size(); i++) {
             q1.add(i);
@@ -29,16 +32,5 @@ public class MyQueueDemo {
         q2.add(99);
         System.out.println(q2);
 
-        try {
-            if(q1.add(null)) {
-                throw new MyException("Нельзя добавлять null в эту очередь!");
-            }
-            q1.add(null);
-        } catch (MyException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Это конец демонстрации в любом случае.");
-            exit(1);
-        }
     }
 }

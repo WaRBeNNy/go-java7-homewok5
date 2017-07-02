@@ -15,11 +15,21 @@
 
 Результатом выполнения задания должен быть репозиторий с коллекцией, классом, тестирующим данную коллекцию,
 описанием задания и README файлом с инструкцией по запуску приложения
+
+UPD: Необходимо внести изменения в задание к модулю 1.2 (Очередь) таким образом, чтобы данный класс стал многопоточным (потоко-безопасным).
  */
 public class AppRuner {
     public static void main(String[] args) {
+        System.out.println("Добро пожаловать");
+
         MyQueueDemo demo = new MyQueueDemo();
 
-        demo.startDemo();
+        try {
+            demo.t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("До свидания!");
     }
 }
