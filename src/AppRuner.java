@@ -1,3 +1,5 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 /*Сергей Гусельников
 Необходимо реализовать коллекцию, которая имеет фиксированный размер.
 
@@ -22,10 +24,24 @@ public class AppRuner {
     public static void main(String[] args) {
         System.out.println("Добро пожаловать");
 
-        MyQueueDemo demo = new MyQueueDemo();
+        MyQueue q1 = new MyQueue();
+        MyQueue q2 = new MyQueue(5);
+        ReentrantLock locker = new ReentrantLock();
+
+        MyQueueDemo demo = new MyQueueDemo(q1, locker);
 
         try {
-            demo.t.join();
+            Thread t = new Thread(demo);
+            t.setName("Демонстрационный поток 1");
+            t.start();
+
+            Thread t2 = new Thread(new MyQueueDemo(q2, locker));
+            t2.setName("Демонстрационный поток 2");
+            t2.start();
+
+
+            t.join();
+            t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -20,17 +20,17 @@ public class MyQueue implements Queue{
         this.coll = new Object[size];
     }
 
-    public synchronized int size() {
+    public int size() {
         return this.size;
     }
 
     @Override
-    public synchronized boolean isEmpty() {
+    public boolean isEmpty() {
         return (n == 0);
     }
 
     @Override
-    public synchronized boolean contains(Object o) {
+    public boolean contains(Object o) {
         for (int i=0; i < n; i++) {
             if (o.equals(coll[i]))
                 return true;
@@ -39,17 +39,17 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized Iterator iterator(){
+    public Iterator iterator(){
         return new MyIterator(0);
     }
 
     @Override
-    public synchronized Object[] toArray() {
+    public Object[] toArray() {
         return coll;
     }
 
     @Override
-    public synchronized Object[] toArray(Object[] a) {
+    public Object[] toArray(Object[] a) {
         if (a.length < size)
             return (Object[]) Arrays.copyOf(coll, size, a.getClass());
         System.arraycopy(coll, 0, a, 0, size);
@@ -59,7 +59,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean add(Object o) {
+    public boolean add(Object o) {
         checkSize();
         coll[n] = o;
         n++;
@@ -67,7 +67,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean remove(Object o) {
+    public boolean remove(Object o) {
         int index;
 
         for (int i = 0; i < n ; i++) {
@@ -85,7 +85,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean addAll(Collection c) {
+    public boolean addAll(Collection c) {
         for (Object o: c ) {
             add(o);
         }
@@ -93,7 +93,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized void clear() {
+    public void clear() {
         for (int i=0; i < n; i++)
             coll[i] = null;
 
@@ -101,7 +101,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean retainAll(Collection c) {
+    public boolean retainAll(Collection c) {
         int count = 0;
 
         for (int i = 0; i < n; i ++) {
@@ -115,7 +115,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean removeAll(Collection c) {
+    public boolean removeAll(Collection c) {
         int count = 0;
 
         for (Object o : c) {
@@ -129,7 +129,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean containsAll(Collection c) {
+    public boolean containsAll(Collection c) {
         int count = 0;
         for(Object o : c) {
            if(contains(o))
@@ -142,12 +142,12 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized boolean offer(Object o) {
+    public boolean offer(Object o) {
         return add(o);
     }
 
     @Override
-    public synchronized Object remove() {
+    public Object remove() {
         Object last = coll[n];
         for (int i = 0; i < n-2; i ++) {
             coll[i] = coll[i+1];
@@ -157,21 +157,21 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized Object poll() {
+    public Object poll() {
         return remove();
     }
 
     @Override
-    public synchronized Object element() {
+    public Object element() {
         return coll[0];
     }
 
     @Override
-    public synchronized Object peek() {
+    public Object peek() {
         return coll[0];
     }
 
-    private synchronized void checkSize() {
+    private void checkSize() {
         if (n == size) {
             for (int i = 0; i < n-2; i ++) {
                 coll[i] = coll[i+1];
@@ -181,7 +181,7 @@ public class MyQueue implements Queue{
     }
 
     @Override
-    public synchronized String toString() {
+    public String toString() {
         return "MyQueue{" +
                 "coll=" + Arrays.toString(coll) +
                 ", size=" + size +

@@ -1,36 +1,32 @@
-import static java.lang.System.exit;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MyQueueDemo implements Runnable{
-    MyQueue q1 = new MyQueue();
-    MyQueue q2 = new MyQueue(5);
-    Thread t;
+    MyQueue q1;
+    ReentrantLock locker;
 
-    public MyQueueDemo() {
-        t = new Thread(this, "Демонстрационный поток");
-        t.start();
+    public MyQueueDemo(MyQueue q1, ReentrantLock lock) {
+        this.q1 = q1;
+        this.locker = lock;
     }
 
-    public synchronized void run() {
+    public void run() {
+        locker.lock();
 
-        for (int i = 0; i < q1.size(); i++) {
-            q1.add(i);
+        try {
+            System.out.println(Thread.currentThread().getName());
+
+            for (int i = 0; i < q1.size(); i++) {
+                q1.add(i);
+            }
+
+            System.out.println("Коллекция с размером " + q1.size() + ":");
+            System.out.println(q1);
+            System.out.println("После добавления элемента в заполненную коллекцию:");
+            q1.add(99);
+            System.out.println(q1);
+
+        } finally {
+            locker.unlock();
         }
-
-        System.out.println("Коллекция с размером по умолчанию:");
-        System.out.println(q1);
-        System.out.println("После добавления элемента в заполненную коллекцию:");
-        q1.add(99);
-        System.out.println(q1);
-
-        for(int i = 0; i < q2.size(); i++) {
-            q2.add(i);
-        }
-
-        System.out.println("Коллекция с размером по умолчанию:");
-        System.out.println(q2);
-        System.out.println("После добавления элемента в заполненную коллекцию:");
-        q2.add(99);
-        System.out.println(q2);
-
     }
 }
